@@ -53,6 +53,10 @@ MonoBehaviour:
   switchCameraMode: 101
   flashlightKey: 102
   stopEyeRoll: 122
+  analyzeKey: 323
+  rotateRight: 100
+  rotateLeft: 97
+  armUse: 101
   cam: {fileID: 0}
   activateCamera: 0
   rotateObj: 0
@@ -72,5 +76,6 @@ MonoBehaviour:
   inputReader: {fileID: 1314367561774907891}
   camController: {fileID: 0}
   playerParts:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

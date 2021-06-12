@@ -304,6 +304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  useMouseToRotate: 1
   inputReader: {fileID: 0}
   partUI: {fileID: 9218276310726441014}
   baseMoveSpeed: 10

@@ -106,6 +106,9 @@ MonoBehaviour:
   distanceMin: 2
   distanceMax: 10
   smoothTime: 2
+  xOffset: 30
+  yOffset: 0
+  zOffset: 0
 --- !u!114 &7416347623012334962
 MonoBehaviour:
   m_ObjectHideFlags: 0

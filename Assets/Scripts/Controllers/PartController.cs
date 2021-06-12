@@ -28,6 +28,8 @@ public class PartController : MonoBehaviour
     }
 
     private bool inUse = false;
+    [SerializeField]
+    public bool useMouseToRotate;
 
     public void EnablePart()
     {

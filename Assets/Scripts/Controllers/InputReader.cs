@@ -18,7 +18,11 @@ public class InputReader : MonoBehaviour
         switchCameraMode = KeyCode.E,
         flashlightKey = KeyCode.F,
         stopEyeRoll = KeyCode.Z,
-        analyzeKey = KeyCode.Mouse0;
+        analyzeKey = KeyCode.Mouse0,
+        rotateRight = KeyCode.D,
+        rotateLeft = KeyCode.A,
+        armUse = KeyCode.E;
+        
 
 
     [Header("Camera")]

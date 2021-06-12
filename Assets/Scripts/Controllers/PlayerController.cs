@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
     {
         playerParts[curIndex].EnablePart();
         camController.setTarget(playerParts[curIndex].transform);
+        camController.setMouseToRotate(playerParts[curIndex].useMouseToRotate);
     }
 
     private void IncrementIndex()
