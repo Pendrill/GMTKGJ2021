@@ -34,6 +34,9 @@ public class MouseOrbit : MonoBehaviour
         rotationXAxis = angles.x;
         startingDistance = distance;
         currentPos = transform.position;
+
+        Cursor.lockState = CursorLockMode.Locked;
+
         // Make the rigid body not change rotation
         if (GetComponent<Rigidbody>())
         {

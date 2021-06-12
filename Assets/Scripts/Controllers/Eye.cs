@@ -94,7 +94,8 @@ public class Eye : PartController
     private void sendRayCast()
     {
         RaycastHit hit;
-        Ray ray = inputReader.cam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+        Ray ray = inputReader.cam.GetComponent<Camera>().ScreenPointToRay(
+            new Vector3(Screen.width/2, Screen.height/2, 0));
 
         if (Physics.Raycast(ray, out hit))
         {
@@ -120,8 +121,15 @@ public class Eye : PartController
                         m_event.AddListener(finishedAnalysis);
                         currentSeenObject.GetComponent<DiscoverableItem>().analyzed(m_event);
                     }
+                }              
+            }
+            else
+            {
+                if (currentSeenObject)
+                {
+                    currentSeenObject.GetComponent<DiscoverableItem>().rayCastLeft();
+                    currentSeenObject = null;
                 }
-                
             }
             //objectHit.gameObject.SetActive(false);
 
