@@ -22,6 +22,7 @@ public class MouseOrbit : MonoBehaviour
     float rotationXAxis = 0.0f;
     float velocityX = 0.0f;
     float velocityY = 0.0f;
+    [SerializeField]
     float startingDistance;
 
     bool hitting = false;
@@ -32,7 +33,7 @@ public class MouseOrbit : MonoBehaviour
         Vector3 angles = transform.eulerAngles;
         rotationYAxis = angles.y;
         rotationXAxis = angles.x;
-        startingDistance = distance;
+        //startingDistance = distance;
         currentPos = transform.position;
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -48,7 +49,7 @@ public class MouseOrbit : MonoBehaviour
         if (target)
         {
 
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
             velocityX += xSpeed * Input.GetAxis("Mouse X") * distance * 0.02f;
             velocityY += ySpeed * Input.GetAxis("Mouse Y") * 0.02f;
 
@@ -69,11 +70,12 @@ public class MouseOrbit : MonoBehaviour
                 hitting = true;
 
             }
+            /*
             if(Input.GetKeyDown("space"))
             {
                 distance = startingDistance;
             }
-           /* else if(!Physics.Linecast(target.position, currentPos, out hit))
+            else if(!Physics.Linecast(target.position, currentPos, out hit))
             {
                 Debug.Log("are we here");
                 distance = startingDistance;
@@ -110,5 +112,10 @@ public class MouseOrbit : MonoBehaviour
     public void removeTarget()
     {
         target = null;
+    }
+
+    public void ResetDistance()
+    {
+        distance = startingDistance;
     }
 }

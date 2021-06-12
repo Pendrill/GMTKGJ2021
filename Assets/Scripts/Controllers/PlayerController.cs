@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
     {
         foreach(PartController controller in playerParts)
         {
-            Debug.Log(controller.name);
             controller.inputReader = inputReader;
         }
     }
@@ -59,6 +58,7 @@ public class PlayerController : MonoBehaviour
     {
         playerParts[curIndex].EnablePart();
         camController.setTarget(playerParts[curIndex].transform);
+        camController.ResetDistance();
     }
 
     private void IncrementIndex()

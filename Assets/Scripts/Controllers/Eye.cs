@@ -17,7 +17,6 @@ public class Eye : PartController
 
     //First person camera variables
     public GameObject FirstPersonUI;
-    public bool isFirstPerson = false;
     public float mouseSensitivity = 100f;
     float xRotation = 0f;
     float yRotation = 0f;
@@ -32,6 +31,14 @@ public class Eye : PartController
     //
     private bool pauseEye = false;
 
+    public enum EyeState
+    {
+        Default,
+        FirstPerson,
+        Dialogue
+    }
+    private EyeState eyeState;
+
     public override void InitPart()
     {
         FirstPersonUI = partUI.transform.GetChild(0).gameObject;
@@ -41,29 +48,25 @@ public class Eye : PartController
     public override void ControlPart()
     {
         if (pauseEye) return;
-        //checkCam();
-        if (isFirstPerson)
+
+        if (eyeState == EyeState.FirstPerson)
         {
             updateFirstPersonCam();
             sendRayCast();
         }
 
-        /*
-        if (Input.GetKeyDown("space") && !isFirstPerson)
-        {
-            activateCam();
-        }*/
-
         if (Input.GetKey(inputReader.stopEyeRoll))
         {
             stopEye();
         }
-        if (Input.GetKeyDown(inputReader.switchCameraMode) && !isFirstPerson)
+        if (Input.GetKeyDown(inputReader.switchCameraMode) && eyeState == EyeState.Default)
         {
+            eyeState = EyeState.FirstPerson;
             activateFirstPerson();
         }
-        else if (Input.GetKeyDown(inputReader.switchCameraMode) && isFirstPerson)
+        else if (Input.GetKeyDown(inputReader.switchCameraMode) && eyeState == EyeState.FirstPerson)
         {
+            eyeState = EyeState.Default;
             deactivateFirstPerson();
         }
 
@@ -72,7 +75,7 @@ public class Eye : PartController
 
     public override void ControlPhysics()
     {
-        if (isFirstPerson) return;
+        if (eyeState == EyeState.FirstPerson) return;
 
         rb.AddForce(inputReader.move_vector * speed);
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
@@ -165,17 +168,16 @@ public class Eye : PartController
         inputReader.cam.GetComponent<MouseOrbit>().removeTarget();
         transform.localEulerAngles = new Vector3(0, 0, 0);
         inputReader.cam.GetComponent<FirstPersonCamera>().setCamTarget(gameObject);
-        Cursor.lockState = CursorLockMode.Locked;
-        isFirstPerson = true;
+        //Cursor.lockState = CursorLockMode.Locked;
         FirstPersonUI.SetActive(true);
     }
 
     private void deactivateFirstPerson()
     {
-        isFirstPerson = false;
         inputReader.cam.GetComponent<MouseOrbit>().setTarget(transform);
         inputReader.cam.GetComponent<FirstPersonCamera>().DeactivateCam();
         FirstPersonUI.SetActive(false);
+        inputReader.cam.GetComponent<MouseOrbit>().ResetDistance();
     }
 
     private void checkFlashLight()
@@ -196,5 +198,19 @@ public class Eye : PartController
     public void finishedAnalysis()
     {
         setPauseEye(false);
+    }
+
+    public override void OnDisablePart()
+    {
+        if(eyeState == EyeState.FirstPerson)
+        {
+            eyeState = EyeState.Default;
+            deactivateFirstPerson();
+        }
+    }
+
+    public override void OnUsePart()
+    {
+        base.OnUsePart();
     }
 }
