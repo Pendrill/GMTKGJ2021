@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
 
 public class Eye : MonoBehaviour
 {
@@ -15,30 +17,41 @@ public class Eye : MonoBehaviour
     public GameObject cam;
     public bool activateCamera = false;
     public float c_xOffset, c_yOffset, c_zOffset;
-    
+
     //First person camera variables
+    public GameObject FirstPersonUI;
     public bool isFirstPerson = false;
     public float mouseSensitivity = 100f;
     float xRotation = 0f;
     float yRotation = 0f;
+    GameObject currentSeenObject;
+    
 
     //Flashlight variables
     public bool flashLightOn = false;
     public Light flashlight;
 
+
+    //
+    private bool pauseEye = false;
+
     void Start()
     {
         cam = GameObject.Find("Camera");
+        FirstPersonUI = GameObject.Find("FirstPersonUI");
+        FirstPersonUI.SetActive(false);
         rb = GetComponent<Rigidbody>();  
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (pauseEye) return;
         //checkCam();
         if (isFirstPerson)
         {
             updateFirstPersonCam();
+            sendRayCast();
         }
 
         if (Input.GetKeyDown("space") && !isFirstPerson)
@@ -90,6 +103,52 @@ public class Eye : MonoBehaviour
         //transform.Rotate(new Vector3(-mouseY, mouseX, 0), Space.World);
     }
 
+    private void sendRayCast()
+    {
+        RaycastHit hit;
+        Ray ray = cam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Transform objectHit = hit.transform;
+            Debug.Log(objectHit.tag);
+            if(objectHit.tag == "Discover")
+            {
+                if(currentSeenObject != objectHit.gameObject)
+                {
+                    if (currentSeenObject)
+                    {
+                        currentSeenObject.GetComponent<DiscoverableItem>().rayCastLeft();
+                    }
+                    currentSeenObject = objectHit.gameObject;
+                    currentSeenObject.GetComponent<DiscoverableItem>().rayCastHit();
+                }
+                else
+                {
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        setPauseEye(true);
+                        UnityEvent m_event = new UnityEvent();
+                        m_event.AddListener(finishedAnalysis);
+                        currentSeenObject.GetComponent<DiscoverableItem>().analyzed(m_event);
+                    }
+                }
+                
+            }
+            //objectHit.gameObject.SetActive(false);
+
+            // Do something with the object that was hit by the raycast.
+        }
+        else
+        {
+            if (currentSeenObject)
+            {
+                currentSeenObject.GetComponent<DiscoverableItem>().rayCastLeft();
+                currentSeenObject = null;
+            }
+        }
+    }
+
     private void activateCam()
     {
         cam.GetComponent<MouseOrbit>().setTarget(transform);
@@ -112,12 +171,14 @@ public class Eye : MonoBehaviour
         cam.GetComponent<FirstPersonCamera>().setCamPosition(transform.position);
         Cursor.lockState = CursorLockMode.Locked;
         isFirstPerson = true;
+        FirstPersonUI.SetActive(true);
     }
 
     private void deactivateFirstPerson()
     {
         isFirstPerson = false;
         cam.GetComponent<MouseOrbit>().setTarget(transform);
+        FirstPersonUI.SetActive(false);
     }
 
     private void checkFlashLight()
@@ -128,5 +189,15 @@ public class Eye : MonoBehaviour
         }
         flashlight.enabled = flashLightOn;
 
+    }
+
+    public void setPauseEye(bool set)
+    {
+        pauseEye = set;
+    }
+
+    public void finishedAnalysis()
+    {
+        setPauseEye(false);
     }
 }
