@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 2459063104162762032}
   - component: {fileID: 8740537471257601506}
   - component: {fileID: 8672453310910924093}
+  - component: {fileID: 1518758389189047375}
   m_Layer: 0
   m_Name: Leg
   m_TagString: Untagged
@@ -348,6 +349,19 @@ MonoBehaviour:
   airMoveMultiplier: 2
   boostTime: 2
   fuelGauge: {fileID: 8196971011879777595}
+--- !u!114 &1518758389189047375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696700118638591154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e4045e5aa91c9479db4668fd16cb13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight: 0
 --- !u!1 &4864335089754448921
 GameObject:
   m_ObjectHideFlags: 0
