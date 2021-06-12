@@ -5,18 +5,26 @@ using UnityEngine;
 public class Eye : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    //Movement variables
     public float speed = 100f;
     public float maxVelocity = 10f;
     private Rigidbody rb;
 
+    //Third person camera variables
     public GameObject cam;
     public bool activateCamera = false;
     public float c_xOffset, c_yOffset, c_zOffset;
+    
+    //First person camera variables
     public bool isFirstPerson = false;
-
     public float mouseSensitivity = 100f;
     float xRotation = 0f;
     float yRotation = 0f;
+
+    //Flashlight variables
+    public bool flashLightOn = false;
+    public Light flashlight;
 
     void Start()
     {
@@ -50,6 +58,8 @@ public class Eye : MonoBehaviour
         {
             deactivateFirstPerson();
         }
+
+        checkFlashLight();
     }
 
     private void FixedUpdate()
@@ -108,5 +118,15 @@ public class Eye : MonoBehaviour
     {
         isFirstPerson = false;
         cam.GetComponent<MouseOrbit>().setTarget(transform);
+    }
+
+    private void checkFlashLight()
+    {
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            flashLightOn = !flashLightOn;
+        }
+        flashlight.enabled = flashLightOn;
+
     }
 }
