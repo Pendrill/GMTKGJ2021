@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Controller specific to legs
@@ -55,6 +56,10 @@ public class LegController : MonoBehaviour
     float boostTime = 2f;
     private float boostTimeRemaining = 2f;
 
+    [Header("UI")]
+    [SerializeField]
+    Image fuelGauge;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -68,11 +73,17 @@ public class LegController : MonoBehaviour
         ControlBoost();
         HandleBoost();
         ControlGravity();
+        ControlUI();
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
+    }
+
+    private void ControlUI()
+    {
+        fuelGauge.fillAmount = boostTimeRemaining / boostTime;
     }
 
     private void ControlBoost()
