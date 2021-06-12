@@ -59,8 +59,9 @@ public class WeightSensitiveInteractable : MonoBehaviour
             OnWeighted?.Invoke();
             eventInvoked = true;
         }
-        else if (!weightValid)
+        else if (!weightValid && eventInvoked)
         {
+            OnUnweighted?.Invoke();
             eventInvoked = false;
         }
     }
@@ -132,10 +133,5 @@ public class WeightSensitiveInteractable : MonoBehaviour
             }           
         }
         return true;
-    }
-
-    public void TestLog()
-    {
-        Debug.Log("Working.");
     }
 }
