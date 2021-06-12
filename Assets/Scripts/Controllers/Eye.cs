@@ -99,7 +99,7 @@ public class Eye : PartController
         if (Physics.Raycast(ray, out hit))
         {
             Transform objectHit = hit.transform;
-            Debug.Log(objectHit.tag);
+            //Debug.Log(objectHit.tag);
             if(objectHit.tag == "Discover")
             {
                 if(currentSeenObject != objectHit.gameObject)
