@@ -74,19 +74,22 @@ public class PartController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Runs in Start
+    /// </summary>
     public virtual void InitPart() 
     { 
     }
 
     /// <summary>
-    /// Where all the part controlling happens. Implemented per part.
+    /// Runs in Update
     /// </summary>
     public virtual void ControlPart()
     { 
     }
 
     /// <summary>
-    /// Where the physics controlling of this part happens. Implemented per part.
+    /// Runs in FixedUpdate
     /// </summary>
     public virtual void ControlPhysics()
     {
