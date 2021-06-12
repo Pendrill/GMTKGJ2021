@@ -6,12 +6,8 @@ using UnityEngine.UI;
 /// <summary>
 /// Controller specific to legs
 /// </summary>
-[RequireComponent(typeof(InputReader))]
-public class LegController : MonoBehaviour
+public class LegController : PartController
 {
-    Rigidbody rb;
-    InputReader inputReader;
-
     [Header("Movement")]
     [SerializeField]
     float baseMoveSpeed;
@@ -66,7 +62,7 @@ public class LegController : MonoBehaviour
         inputReader = GetComponent<InputReader>();
     }
 
-    private void Update()
+    public override void ControlPart()
     {
         isGrounded = Physics.CheckSphere(groundCheckSphere.position, groundDistance, groundMask);
         ControlDrag();
@@ -74,11 +70,6 @@ public class LegController : MonoBehaviour
         HandleBoost();
         ControlGravity();
         ControlUI();
-    }
-
-    private void FixedUpdate()
-    {
-        MovePlayer();
     }
 
     private void ControlUI()
@@ -164,7 +155,7 @@ public class LegController : MonoBehaviour
         }
     }
 
-    private void MovePlayer()
+    public override void ControlPhysics()
     {
         if (isGrounded)
         {

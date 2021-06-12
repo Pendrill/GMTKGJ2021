@@ -13,7 +13,8 @@ public class InputReader : MonoBehaviour
         rightKey = KeyCode.D,
         upKey = KeyCode.W,
         downKey = KeyCode.S,
-        jumpKey = KeyCode.Space;
+        jumpKey = KeyCode.Space,
+        switchKey = KeyCode.Q;
 
 
     [Header("Camera")]
