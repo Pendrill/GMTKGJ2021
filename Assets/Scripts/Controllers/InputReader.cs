@@ -15,13 +15,42 @@ public class InputReader : MonoBehaviour
         downKey = KeyCode.S,
         jumpKey = KeyCode.Space;
 
+
+    [Header("Camera")]
+    public GameObject cam;
+    public bool activateCamera = false;
+    public bool rotateObj = false;
+    Vector3 camForward;
+
+
     public Vector3 move_vector = Vector3.zero;
-    public float vert_vector;
+
+    private void Start()
+    {
+        cam = GameObject.Find("Camera");
+    }
 
     // Update is called once per frame
     void Update()
     {
-        move_vector = transform.forward * Input.GetAxisRaw("Vertical")
-            + transform.right * Input.GetAxisRaw("Horizontal");
+        RotateObj();
+        SetMoveVector();
+    }
+
+    private void SetMoveVector()
+    {
+        move_vector = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+        move_vector = cam.transform.TransformDirection(move_vector);
+        move_vector.y = 0.0f;
+    }
+
+    private void RotateObj()
+    {
+        //Get the camera's forward
+        //Project the forward down onto a flat plane
+        camForward = Vector3.ProjectOnPlane(cam.transform.forward, Vector3.up);
+
+        //Rotate object so it's forward matches camForward
+        transform.rotation = Quaternion.LookRotation(camForward);
     }
 }

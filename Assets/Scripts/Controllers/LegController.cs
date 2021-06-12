@@ -112,13 +112,13 @@ public class LegController : MonoBehaviour
         {
             rb.drag = groundDrag;
         }
-        else
+        else if (!isGrounded)
         {
             if (boostState == BoostState.Boost)
             {
                 rb.drag = airDrag;
             }
-            else
+            else if(boostState == BoostState.Idle)
             {
                 rb.drag = fallDrag;
             }
