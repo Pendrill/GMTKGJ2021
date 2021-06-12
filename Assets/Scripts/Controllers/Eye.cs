@@ -12,6 +12,11 @@ public class Eye : MonoBehaviour
     public GameObject cam;
     public bool activateCamera = false;
     public float c_xOffset, c_yOffset, c_zOffset;
+    public bool isFirstPerson = false;
+
+    public float mouseSensitivity = 100f;
+    float xRotation = 0f;
+    float yRotation = 0f;
 
     void Start()
     {
@@ -23,14 +28,33 @@ public class Eye : MonoBehaviour
     void Update()
     {
         //checkCam();
-        if(Input.GetKeyDown("space"))
+        if (isFirstPerson)
         {
-            //activateCam();
+            updateFirstPersonCam();
+        }
+
+        if (Input.GetKeyDown("space") && !isFirstPerson)
+        {
+            activateCam();
+        }
+        
+        if(Input.GetKey(KeyCode.E))
+        {
+            stopEye();
+        }
+        if(Input.GetKeyDown(KeyCode.Q) && !isFirstPerson)
+        {
+            activateFirstPerson();
+        }
+        else if (Input.GetKeyDown(KeyCode.Q) && isFirstPerson)
+        {
+            deactivateFirstPerson();
         }
     }
 
     private void FixedUpdate()
     {
+        if (isFirstPerson) return;
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
 
@@ -43,17 +67,46 @@ public class Eye : MonoBehaviour
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
     }
 
-    private void checkCam()
+    private void updateFirstPersonCam()
     {
-        if(activateCamera)
-        {
-            cam.transform.position = transform.position + new Vector3(c_xOffset, c_yOffset, c_zOffset);
-            cam.transform.LookAt(transform.position);
-        }
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        xRotation -= mouseY;
+        yRotation += mouseX;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90);
+        cam.GetComponent<FirstPersonCamera>().updateLocalRotation(Quaternion.Euler(xRotation, yRotation, 0f));
+        transform.localEulerAngles = new Vector3(xRotation, yRotation, 0);
+        //transform.eulerAngles = Vector3.zero;
+        //transform.Rotate(new Vector3(-mouseY, mouseX, 0), Space.World);
     }
 
     private void activateCam()
     {
-        activateCamera = !activateCamera;
+        cam.GetComponent<MouseOrbit>().setTarget(transform);
+    }
+
+    private void stopEye()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        //transform.Rotate(new Vector3(0f, 0f, 0f));
+    }
+
+    private void activateFirstPerson()
+    {
+        stopEye();
+        xRotation = 0;
+        yRotation = 0;
+        cam.GetComponent<MouseOrbit>().removeTarget();
+        transform.localEulerAngles = new Vector3(0, 0, 0);
+        cam.GetComponent<FirstPersonCamera>().setCamPosition(transform.position);
+        Cursor.lockState = CursorLockMode.Locked;
+        isFirstPerson = true;
+    }
+
+    private void deactivateFirstPerson()
+    {
+        isFirstPerson = false;
+        cam.GetComponent<MouseOrbit>().setTarget(transform);
     }
 }

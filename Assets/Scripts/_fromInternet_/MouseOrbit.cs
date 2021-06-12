@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Uses script from https://answers.unity.com/questions/1257281/how-to-rotate-camera-orbit-around-a-game-object-on.html
+/// as a base 
+/// </summary>
+
 public class MouseOrbit : MonoBehaviour
 {
     public Transform target;
@@ -97,5 +102,10 @@ public class MouseOrbit : MonoBehaviour
     public void setTarget(Transform newTarget)
     {
         target = newTarget;
+    }
+
+    public void removeTarget()
+    {
+        target = null;
     }
 }
