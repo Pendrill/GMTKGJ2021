@@ -25,6 +25,10 @@ public class MouseOrbit : MonoBehaviour
     float startingDistance;
 
     bool hitting = false;
+
+    bool useMouseToRotate = true;
+
+    public float xOffset, yOffset, zOffset;
     Vector3 currentPos;
     // Use this for initialization
     void Start()
@@ -49,16 +53,27 @@ public class MouseOrbit : MonoBehaviour
         {
 
             Cursor.lockState = CursorLockMode.Locked;
-            velocityX += xSpeed * Input.GetAxis("Mouse X") * distance * 0.02f;
-            velocityY += ySpeed * Input.GetAxis("Mouse Y") * 0.02f;
+            Quaternion rotation; 
 
-          
-            rotationYAxis += velocityX;
-            rotationXAxis -= velocityY;
-            rotationXAxis = ClampAngle(rotationXAxis, yMinLimit, yMaxLimit);
-            Quaternion fromRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
-            Quaternion toRotation = Quaternion.Euler(rotationXAxis, rotationYAxis, 0);
-            Quaternion rotation = toRotation;
+            if (useMouseToRotate)
+            {
+                velocityX += xSpeed * Input.GetAxis("Mouse X") * distance * 0.02f;
+                velocityY += ySpeed * Input.GetAxis("Mouse Y") * 0.02f;
+
+
+                rotationYAxis += velocityX;
+                rotationXAxis -= velocityY;
+                rotationXAxis = ClampAngle(rotationXAxis, yMinLimit, yMaxLimit);
+                Quaternion fromRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
+                Quaternion toRotation = Quaternion.Euler(rotationXAxis, rotationYAxis, 0);
+                rotation = toRotation;
+            }
+            else
+            {
+                Debug.Log("ever here00");
+                Quaternion toRotation = Quaternion.Euler(target.rotation.eulerAngles.x + xOffset, target.rotation.eulerAngles.y + yOffset, 0 + zOffset);
+                rotation = toRotation;
+            }
 
             //distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel") * 5, distanceMin, distanceMax);
             RaycastHit hit;
@@ -69,16 +84,16 @@ public class MouseOrbit : MonoBehaviour
                 hitting = true;
 
             }
-            if(Input.GetKeyDown("space"))
+            if (Input.GetKeyDown("space"))
             {
                 distance = startingDistance;
             }
-           /* else if(!Physics.Linecast(target.position, currentPos, out hit))
-            {
-                Debug.Log("are we here");
-                distance = startingDistance;
-                hitting = false;
-            }*/
+            /* else if(!Physics.Linecast(target.position, currentPos, out hit))
+             {
+                 Debug.Log("are we here");
+                 distance = startingDistance;
+                 hitting = false;
+             }*/
             Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
             Vector3 position = rotation * negDistance + target.position;
 
@@ -91,6 +106,7 @@ public class MouseOrbit : MonoBehaviour
             transform.position = position;
             velocityX = Mathf.Lerp(velocityX, 0, Time.deltaTime * smoothTime);
             velocityY = Mathf.Lerp(velocityY, 0, Time.deltaTime * smoothTime);
+
         }
     }
     public static float ClampAngle(float angle, float min, float max)
@@ -110,5 +126,10 @@ public class MouseOrbit : MonoBehaviour
     public void removeTarget()
     {
         target = null;
+    }
+
+    public void setMouseToRotate(bool setValue)
+    {
+        useMouseToRotate = setValue;
     }
 }
