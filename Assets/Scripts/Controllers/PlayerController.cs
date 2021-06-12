@@ -8,6 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(InputReader))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
     InputReader inputReader;
     [SerializeField]
     MouseOrbit camController;
@@ -17,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        inputReader = GetComponent<InputReader>();
+        InitializeCurrentParts();
         EnableCurrentPart();
     }
 
@@ -25,6 +26,15 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         HandleSwitchController();
+    }
+
+    private void InitializeCurrentParts()
+    {
+        foreach(PartController controller in playerParts)
+        {
+            Debug.Log(controller.name);
+            controller.inputReader = inputReader;
+        }
     }
 
     private void HandleSwitchController()

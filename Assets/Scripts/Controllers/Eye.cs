@@ -4,19 +4,16 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-public class Eye : MonoBehaviour
+public class Eye : PartController
 {
     // Start is called before the first frame update
 
     //Movement variables
     public float speed = 100f;
     public float maxVelocity = 10f;
-    private Rigidbody rb;
 
     //Third person camera variables
-    public GameObject cam;
     public bool activateCamera = false;
-    public float c_xOffset, c_yOffset, c_zOffset;
 
     //First person camera variables
     public GameObject FirstPersonUI;
@@ -35,16 +32,13 @@ public class Eye : MonoBehaviour
     //
     private bool pauseEye = false;
 
-    void Start()
+    public override void InitPart()
     {
-        cam = GameObject.Find("Camera");
-        FirstPersonUI = GameObject.Find("FirstPersonUI");
+        FirstPersonUI = partUI.transform.GetChild(0).gameObject;
         FirstPersonUI.SetActive(false);
-        rb = GetComponent<Rigidbody>();  
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void ControlPart()
     {
         if (pauseEye) return;
         //checkCam();
@@ -54,20 +48,21 @@ public class Eye : MonoBehaviour
             sendRayCast();
         }
 
+        /*
         if (Input.GetKeyDown("space") && !isFirstPerson)
         {
             activateCam();
-        }
-        
-        if(Input.GetKey(KeyCode.E))
+        }*/
+
+        if (Input.GetKey(inputReader.stopEyeRoll))
         {
             stopEye();
         }
-        if(Input.GetKeyDown(KeyCode.Q) && !isFirstPerson)
+        if (Input.GetKeyDown(inputReader.switchCameraMode) && !isFirstPerson)
         {
             activateFirstPerson();
         }
-        else if (Input.GetKeyDown(KeyCode.Q) && isFirstPerson)
+        else if (Input.GetKeyDown(inputReader.switchCameraMode) && isFirstPerson)
         {
             deactivateFirstPerson();
         }
@@ -75,18 +70,11 @@ public class Eye : MonoBehaviour
         checkFlashLight();
     }
 
-    private void FixedUpdate()
+    public override void ControlPhysics()
     {
         if (isFirstPerson) return;
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
 
-
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        movement = cam.transform.TransformDirection(movement);
-        movement.y = 0.0f;
-
-        rb.AddForce(movement * speed);
+        rb.AddForce(inputReader.move_vector * speed);
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocity);
     }
 
@@ -97,7 +85,7 @@ public class Eye : MonoBehaviour
         xRotation -= mouseY;
         yRotation += mouseX;
         xRotation = Mathf.Clamp(xRotation, -90f, 90);
-        cam.GetComponent<FirstPersonCamera>().updateLocalRotation(Quaternion.Euler(xRotation, yRotation, 0f));
+        inputReader.cam.GetComponent<FirstPersonCamera>().updateLocalRotation(Quaternion.Euler(xRotation, yRotation, 0f));
         transform.localEulerAngles = new Vector3(xRotation, yRotation, 0);
         //transform.eulerAngles = Vector3.zero;
         //transform.Rotate(new Vector3(-mouseY, mouseX, 0), Space.World);
@@ -106,7 +94,7 @@ public class Eye : MonoBehaviour
     private void sendRayCast()
     {
         RaycastHit hit;
-        Ray ray = cam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+        Ray ray = inputReader.cam.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit))
         {
@@ -125,7 +113,7 @@ public class Eye : MonoBehaviour
                 }
                 else
                 {
-                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    if (Input.GetKeyDown(inputReader.analyzeKey))
                     {
                         setPauseEye(true);
                         UnityEvent m_event = new UnityEvent();
@@ -151,7 +139,7 @@ public class Eye : MonoBehaviour
 
     private void activateCam()
     {
-        cam.GetComponent<MouseOrbit>().setTarget(transform);
+        inputReader.cam.GetComponent<MouseOrbit>().setTarget(transform);
     }
 
     private void stopEye()
@@ -166,9 +154,9 @@ public class Eye : MonoBehaviour
         stopEye();
         xRotation = 0;
         yRotation = 0;
-        cam.GetComponent<MouseOrbit>().removeTarget();
+        inputReader.cam.GetComponent<MouseOrbit>().removeTarget();
         transform.localEulerAngles = new Vector3(0, 0, 0);
-        cam.GetComponent<FirstPersonCamera>().setCamPosition(transform.position);
+        inputReader.cam.GetComponent<FirstPersonCamera>().setCamTarget(gameObject);
         Cursor.lockState = CursorLockMode.Locked;
         isFirstPerson = true;
         FirstPersonUI.SetActive(true);
@@ -177,13 +165,14 @@ public class Eye : MonoBehaviour
     private void deactivateFirstPerson()
     {
         isFirstPerson = false;
-        cam.GetComponent<MouseOrbit>().setTarget(transform);
+        inputReader.cam.GetComponent<MouseOrbit>().setTarget(transform);
+        inputReader.cam.GetComponent<FirstPersonCamera>().DeactivateCam();
         FirstPersonUI.SetActive(false);
     }
 
     private void checkFlashLight()
     {
-        if(Input.GetKeyDown(KeyCode.F))
+        if(Input.GetKeyDown(inputReader.flashlightKey))
         {
             flashLightOn = !flashLightOn;
         }

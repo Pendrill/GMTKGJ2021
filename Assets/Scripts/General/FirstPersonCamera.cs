@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class FirstPersonCamera : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    GameObject target;
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(target != null)
+        {
+            transform.position = target.transform.position;
+        }
     }
 
     public void updateLocalRotation(Quaternion rotation)
@@ -21,8 +20,13 @@ public class FirstPersonCamera : MonoBehaviour
         transform.localRotation = rotation;
     }
 
-    public void setCamPosition(Vector3 pos)
+    public void setCamTarget(GameObject obj)
     {
-        transform.position = pos;
+        target = obj;
+    }
+
+    public void DeactivateCam()
+    {
+        target = null;
     }
 }

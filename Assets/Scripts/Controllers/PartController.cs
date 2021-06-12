@@ -50,11 +50,12 @@ public class PartController : MonoBehaviour
     protected Rigidbody rb;
 
     [SerializeField]
-    Canvas partUI;
+    protected Canvas partUI;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        InitPart();
     }
 
     public void Update()
@@ -71,6 +72,10 @@ public class PartController : MonoBehaviour
         {
             ControlPhysics();
         }
+    }
+
+    public virtual void InitPart() 
+    { 
     }
 
     /// <summary>

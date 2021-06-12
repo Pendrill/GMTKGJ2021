@@ -56,10 +56,9 @@ public class LegController : PartController
     [SerializeField]
     Image fuelGauge;
 
-    private void Start()
+    public override void InitPart()
     {
-        rb = GetComponent<Rigidbody>();
-        inputReader = GetComponent<InputReader>();
+        base.InitPart();
     }
 
     public override void ControlPart()

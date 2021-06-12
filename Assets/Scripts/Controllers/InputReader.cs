@@ -14,7 +14,11 @@ public class InputReader : MonoBehaviour
         upKey = KeyCode.W,
         downKey = KeyCode.S,
         jumpKey = KeyCode.Space,
-        switchKey = KeyCode.Q;
+        switchKey = KeyCode.Q,
+        switchCameraMode = KeyCode.E,
+        flashlightKey = KeyCode.F,
+        stopEyeRoll = KeyCode.Z,
+        analyzeKey = KeyCode.Mouse0;
 
 
     [Header("Camera")]

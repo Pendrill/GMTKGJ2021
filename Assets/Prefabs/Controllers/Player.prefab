@@ -50,6 +50,9 @@ MonoBehaviour:
   downKey: 115
   jumpKey: 32
   switchKey: 113
+  switchCameraMode: 101
+  flashlightKey: 102
+  stopEyeRoll: 122
   cam: {fileID: 0}
   activateCamera: 0
   rotateObj: 0
@@ -66,6 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c8adafb474ae4e489f2100d0af2c697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputReader: {fileID: 1314367561774907891}
   camController: {fileID: 0}
   playerParts:
   - {fileID: 0}
