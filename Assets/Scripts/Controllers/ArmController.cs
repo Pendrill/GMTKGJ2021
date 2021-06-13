@@ -15,11 +15,23 @@ public class ArmController : PartController
 
     bool temp = true;
 
+    private bool grabbing = false;
+    private bool isGrabbing = false;
+
+    Animator animator;
+
+    [SerializeField]
+    Transform grabLockTarget;
+    //Previous parent for holdable
+    private Transform prevParent;
+    private Vector3 prevPos;
+
     //start
     public override void InitPart()
     {
        
         currentDelay = moveDelay;
+        animator = GetComponent<Animator>();
     }
 
     //update
@@ -34,7 +46,9 @@ public class ArmController : PartController
         {
             updateArmRotation();
         }
-            
+        ControlMoveAnimation();
+        ControlGrabAnimation();
+        ControlGrabUI();
     }
 
     //physics update
@@ -49,7 +63,7 @@ public class ArmController : PartController
             currentDelay = moveDelay;
         }
 
-        if(currentDelay <= 0)
+        if(currentDelay <= 0 && !isGrabbing)
         {
             rb.drag = groundDrag;
             rb.AddForce(Input.GetAxis("Vertical") * transform.forward * speed);
@@ -60,6 +74,65 @@ public class ArmController : PartController
             }
         }
         
+    }
+
+    private void ControlMoveAnimation()
+    {
+        //Flat velocity excludes vertical velocity
+        float flatVelocity = Mathf.Abs(new Vector2(rb.velocity.x, rb.velocity.z).magnitude);
+        if (flatVelocity < 0.1f)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Arm_Walk") ||
+                animator.GetCurrentAnimatorStateInfo(0).IsName("ArmGrab_Idle"))
+            {
+                animator.SetTrigger("IdleTrigger");
+            }
+        }
+        else if (flatVelocity > 0.1f)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            {
+                animator.SetTrigger("WalkTrigger");
+            }
+        }
+    }
+
+    private void ControlGrabAnimation()
+    {
+        if (inputReader.grabbable && Input.GetKeyDown(inputReader.armUse))
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Arm_Walk") ||
+                animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            {
+                animator.SetTrigger("GrabTrigger");
+                isGrabbing = true;
+                prevParent = inputReader.holdable.transform.parent;
+                prevPos = inputReader.holdable.transform.localPosition;
+                inputReader.holdable.GetComponent<Rigidbody>().isKinematic = true;
+                inputReader.holdable.transform.parent = grabLockTarget;
+                inputReader.holdable.transform.localPosition = Vector3.zero;
+            }
+            else if (isGrabbing && animator.GetCurrentAnimatorStateInfo(0).IsName("ArmGrab_Idle"))
+            {
+                animator.SetTrigger("ReleaseTrigger");
+                isGrabbing = false;
+                inputReader.holdable.GetComponent<Rigidbody>().isKinematic = false;
+                inputReader.holdable.transform.parent = prevParent;
+                //inputReader.holdable.transform.localPosition = prevPos;
+            }
+        }
+    }
+
+    private void ControlGrabUI()
+    {
+        if (inputReader.grabbable && isGrabbing)
+        {
+            GameSingleton.Instance.uiManager.SetMessage("Press '" + inputReader.armUse + "' to release " + inputReader.grabbableName);
+        }
+        else if (inputReader.grabbable && !isGrabbing)
+        {
+            GameSingleton.Instance.uiManager.SetMessage("Press '" + inputReader.armUse + "' to use " + inputReader.grabbableName);
+        }
     }
 
     public void updateArmRotation()

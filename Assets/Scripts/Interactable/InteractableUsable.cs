@@ -17,14 +17,15 @@ public class InteractableUsable : MonoBehaviour
 
     private bool active = false;
 
+    [Tooltip("Object that is put into arm when grabbed.")]
+    [SerializeField]
+    public Transform holdable;
+
     private void Update()
     {
         if(active)
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                OnUse.Invoke();
-            }
+           
         }
     }
 
@@ -33,7 +34,9 @@ public class InteractableUsable : MonoBehaviour
         if (other.gameObject.GetComponent<PartController>() != null &&
             other.gameObject.GetComponent<PartController>().Type == PartController.PartType.Arm)
         {
-            GameSingleton.Instance.uiManager.SetMessage("Press 'E' to use " + usable_name);
+            GameSingleton.Instance.controller.inputReader.grabbable = true;
+            GameSingleton.Instance.controller.inputReader.grabbableName = usable_name;
+            GameSingleton.Instance.controller.inputReader.holdable = holdable;
             active = true;
         }
 
@@ -46,6 +49,9 @@ public class InteractableUsable : MonoBehaviour
           other.gameObject.GetComponent<PartController>().Type == PartController.PartType.Arm)
         {
             GameSingleton.Instance.uiManager.EmptyMessage();
+            GameSingleton.Instance.controller.inputReader.grabbable = false;
+            GameSingleton.Instance.controller.inputReader.grabbableName = "";
+            GameSingleton.Instance.controller.inputReader.holdable = null;
             active = false;
         }
     }

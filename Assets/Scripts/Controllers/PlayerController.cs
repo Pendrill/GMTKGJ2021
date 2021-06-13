@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    InputReader inputReader;
+    public InputReader inputReader;
     [SerializeField]
     MouseOrbit camController;
 

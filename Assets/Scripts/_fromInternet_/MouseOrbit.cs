@@ -72,7 +72,7 @@ public class MouseOrbit : MonoBehaviour
             }
             else
             {
-                Debug.Log("ever here00");
+                //Debug.Log("ever here00");
                 Quaternion toRotation = Quaternion.Euler(target.rotation.eulerAngles.x + xOffset, target.rotation.eulerAngles.y + yOffset, 0 + zOffset);
                 rotation = toRotation;
             }
