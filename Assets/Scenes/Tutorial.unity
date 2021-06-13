@@ -6673,7 +6673,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 419117227629208415, guid: d482443d68d390b43a616a995ddca6ef, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1017573870389189221, guid: d482443d68d390b43a616a995ddca6ef, type: 3}
       propertyPath: volume
@@ -6697,7 +6697,7 @@ PrefabInstance:
       objectReference: {fileID: 1552607728}
     - target: {fileID: 1017573870389189221, guid: d482443d68d390b43a616a995ddca6ef, type: 3}
       propertyPath: OnCheckpointSave.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1017573870389189221, guid: d482443d68d390b43a616a995ddca6ef, type: 3}
       propertyPath: OnCheckpointSave.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
