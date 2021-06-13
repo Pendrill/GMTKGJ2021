@@ -18,7 +18,8 @@ public class InputReader : MonoBehaviour
         switchCameraMode = KeyCode.E,
         flashlightKey = KeyCode.F,
         stopEyeRoll = KeyCode.Z,
-        analyzeKey = KeyCode.Mouse0;
+        analyzeKey = KeyCode.Mouse0,
+        resetCheckpoint = KeyCode.R;
 
 
     [Header("Camera")]
@@ -40,6 +41,15 @@ public class InputReader : MonoBehaviour
     {
         RotateObj();
         SetMoveVector();
+        ControlReloadCheckpoint();
+    }
+
+    private void ControlReloadCheckpoint()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            CheckpointSystem.OnCheckpointReload.Invoke();
+        }
     }
 
     private void SetMoveVector()

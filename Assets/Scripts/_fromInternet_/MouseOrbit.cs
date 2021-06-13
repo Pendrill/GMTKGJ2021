@@ -36,7 +36,8 @@ public class MouseOrbit : MonoBehaviour
         //startingDistance = distance;
         currentPos = transform.position;
 
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = false;
 
         // Make the rigid body not change rotation
         if (GetComponent<Rigidbody>())
@@ -49,7 +50,7 @@ public class MouseOrbit : MonoBehaviour
         if (target)
         {
 
-            //Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.Locked;
             velocityX += xSpeed * Input.GetAxis("Mouse X") * distance * 0.02f;
             velocityY += ySpeed * Input.GetAxis("Mouse Y") * 0.02f;
 
@@ -61,7 +62,7 @@ public class MouseOrbit : MonoBehaviour
             Quaternion toRotation = Quaternion.Euler(rotationXAxis, rotationYAxis, 0);
             Quaternion rotation = toRotation;
 
-            //distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel") * 5, distanceMin, distanceMax);
+            distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel") * 5, distanceMin, distanceMax);
             RaycastHit hit;
             if (Physics.Linecast(target.position, transform.position, out hit))
             {

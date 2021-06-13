@@ -130,7 +130,11 @@ public class Eye : PartController
             {
                 if (currentSeenObject)
                 {
-                    currentSeenObject.GetComponent<DiscoverableItem>().rayCastLeft();
+                    //Call raycastLeft if it still has DiscoverableItem. (Parts lose it when discovered)
+                    if (currentSeenObject.GetComponent<DiscoverableItem>())
+                    {
+                        currentSeenObject.GetComponent<DiscoverableItem>().rayCastLeft();
+                    }                  
                     currentSeenObject = null;
                 }
             }
@@ -163,10 +167,15 @@ public class Eye : PartController
     private void activateFirstPerson()
     {
         stopEye();
-        xRotation = 0;
-        yRotation = 0;
+        //Calculate rotation to face the same direction of the camera
+        transform.rotation = Quaternion.LookRotation(
+            Vector3.ProjectOnPlane(inputReader.cam.transform.forward, Vector3.up));
+
+        xRotation = transform.eulerAngles.x;
+        yRotation = transform.eulerAngles.y;
+
         inputReader.cam.GetComponent<MouseOrbit>().removeTarget();
-        transform.localEulerAngles = new Vector3(0, 0, 0);
+        //transform.localEulerAngles = new Vector3(0, 0, 0);
         inputReader.cam.GetComponent<FirstPersonCamera>().setCamTarget(gameObject);
         //Cursor.lockState = CursorLockMode.Locked;
         FirstPersonUI.SetActive(true);
@@ -174,6 +183,10 @@ public class Eye : PartController
 
     private void deactivateFirstPerson()
     {
+        //Calculate rotation to face the same direction of the camera
+        inputReader.cam.transform.rotation = Quaternion.LookRotation(
+            Vector3.ProjectOnPlane(inputReader.cam.transform.forward, Vector3.up));
+
         inputReader.cam.GetComponent<MouseOrbit>().setTarget(transform);
         inputReader.cam.GetComponent<FirstPersonCamera>().DeactivateCam();
         FirstPersonUI.SetActive(false);

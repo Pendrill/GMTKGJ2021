@@ -11,6 +11,9 @@ public class GameSingleton : MonoBehaviour
     [SerializeField]
     public UIManager uiManager;
 
+    [SerializeField]
+    public CheckpointSystem checkpointSystem;
+
     //Singleton pattern here:
     private static GameSingleton _instance;
 
