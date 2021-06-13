@@ -19,7 +19,7 @@ public class InputReader : MonoBehaviour
         flashlightKey = KeyCode.F,
         stopEyeRoll = KeyCode.Z,
         analyzeKey = KeyCode.Mouse0,
-        resetCheckpoint = KeyCode.R;
+        resetCheckpoint = KeyCode.R,
         rotateRight = KeyCode.D,
         rotateLeft = KeyCode.A,
         armUse = KeyCode.E;
