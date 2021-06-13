@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     MouseOrbit camController;
 
+    public delegate void OnPartEvent(PartController.PartType type, PartController.PartSpecificType specificType);
+    public static OnPartEvent OnPartAdd;
+    public static OnPartEvent OnPartRemove;
+
     public List<PartController> playerParts;
     int curIndex = 0;
 
@@ -92,6 +96,7 @@ public class PlayerController : MonoBehaviour
         {
             partController.inputReader = inputReader;
             playerParts.Add(partController);
+            OnPartAdd?.Invoke(partController.Type, partController.SpecificType);
         }
         else
         {
@@ -104,6 +109,7 @@ public class PlayerController : MonoBehaviour
         if (playerParts.Contains(partController))
         {
             playerParts.Remove(partController);
+            OnPartRemove?.Invoke(partController.Type, partController.SpecificType);
         }
         else
         {

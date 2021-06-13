@@ -14,6 +14,9 @@ public class GameSingleton : MonoBehaviour
     [SerializeField]
     public CheckpointSystem checkpointSystem;
 
+    [SerializeField]
+    public PlayerController controller;
+
     //Singleton pattern here:
     private static GameSingleton _instance;
 
