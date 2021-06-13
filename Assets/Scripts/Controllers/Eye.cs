@@ -27,6 +27,9 @@ public class Eye : PartController
     public bool flashLightOn = false;
     public Light flashlight;
 
+    public AudioSource theAudioSource;
+    public AudioClip flashlightSound;
+
 
     //
     private bool pauseEye = false;
@@ -238,6 +241,8 @@ public class Eye : PartController
         if(inputReader && Input.GetKeyDown(inputReader.flashlightKey))
         {
             flashLightOn = !flashLightOn;
+            theAudioSource.clip = flashlightSound;
+            theAudioSource.Play();
         }
         flashlight.enabled = flashLightOn;
 
