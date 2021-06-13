@@ -32,6 +32,12 @@ public class InputReader : MonoBehaviour
     public bool rotateObj = false;
     Vector3 camForward;
 
+    [Header("Interaction")]
+    public bool grabbable = false;
+    public string grabbableName = "";
+    public Transform holdable;
+    public InteractableUsable usable;
+
 
     public Vector3 move_vector = Vector3.zero;
 

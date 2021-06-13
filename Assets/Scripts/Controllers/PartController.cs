@@ -26,6 +26,24 @@ public class PartController : MonoBehaviour
             return type;
         }
     }
+    public enum PartSpecificType
+    {
+        None,
+        Left,
+        Right
+    }
+    [SerializeField]
+    private PartSpecificType specificType;
+
+    [HideInInspector]
+    public PartSpecificType SpecificType
+    {
+        get
+        {
+            return specificType;
+        }
+    }
+
 
     private bool inUse = false;
     [SerializeField]

@@ -56,9 +56,12 @@ public class LegController : PartController
     [SerializeField]
     Image fuelGauge;
 
+    Animator animator;
+
     public override void InitPart()
     {
         base.InitPart();
+        animator = GetComponent<Animator>();
     }
 
     public override void ControlPart()
@@ -69,6 +72,7 @@ public class LegController : PartController
         HandleBoost();
         ControlGravity();
         ControlUI();
+        ControlMoveAnimation();
     }
 
     private void ControlUI()
@@ -89,12 +93,19 @@ public class LegController : PartController
             if(boostTimeRemaining > 0)
             {
                 boostState = BoostState.Boost;
+                if (!animator.GetCurrentAnimatorStateInfo(0).IsName("BoostUp"))
+                {
+                    animator.SetTrigger("JumpTrigger");
+                }
             }
             else
             {
                 boostState = BoostState.Hover;
-            }
-            
+                if (!animator.GetCurrentAnimatorStateInfo(0).IsName("BoostHover"))
+                {
+                    animator.SetTrigger("HoverTrigger");
+                }                   
+            }          
         }
         else
         {
@@ -157,6 +168,11 @@ public class LegController : PartController
         else if (isGrounded)
         {
             boostTimeRemaining = boostTime;
+            if(animator.GetCurrentAnimatorStateInfo(0).IsName("BoostUp") ||
+                animator.GetCurrentAnimatorStateInfo(0).IsName("BoostHover"))
+            {
+                animator.SetTrigger("LandTrigger");
+            }
         }
     }
 
@@ -175,6 +191,28 @@ public class LegController : PartController
                 baseMoveSpeed * airMoveMultiplier,
                 ForceMode.Acceleration);
         }      
+    }
+
+    private void ControlMoveAnimation()
+    {
+        //Flat velocity excludes vertical velocity
+        float flatVelocity = Mathf.Abs(new Vector2(rb.velocity.x, rb.velocity.z).magnitude);
+        if(isGrounded && flatVelocity < 0.3f)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Move") ||
+                animator.GetCurrentAnimatorStateInfo(0).IsName("BoostLand"))
+            {
+                animator.SetTrigger("StillTrigger");
+            }         
+        }
+        else if (isGrounded && flatVelocity > 0.3f)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") ||
+                animator.GetCurrentAnimatorStateInfo(0).IsName("BoostLand"))
+            {
+                animator.SetTrigger("MoveTrigger");
+            }      
+        }
     }
 
     private enum BoostState
