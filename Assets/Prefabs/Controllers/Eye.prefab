@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  specificType: 0
   useMouseToRotate: 1
   inputReader: {fileID: 0}
   partUI: {fileID: 3268533195370190269}
@@ -397,7 +398,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a089f95cbec00d143806458cdcfb2428, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e2228a734265beb4590d60be52d860d0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -465,7 +466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5007565, g: 0.8773585, b: 0.5929419, a: 0.34901962}
+  m_Color: {r: 0.26666668, g: 0.6666667, b: 0.6509804, a: 0.34901962}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
