@@ -1968,6 +1968,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 4035383198606522238, guid: 84183d1bd2fe6114a8fcee1912986f04, type: 3}
+      propertyPath: startingDistance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4035383198606522239, guid: 84183d1bd2fe6114a8fcee1912986f04, type: 3}
       propertyPath: m_RootOrder
       value: 7

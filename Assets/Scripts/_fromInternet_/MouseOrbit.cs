@@ -22,6 +22,7 @@ public class MouseOrbit : MonoBehaviour
     float rotationXAxis = 0.0f;
     float velocityX = 0.0f;
     float velocityY = 0.0f;
+    [SerializeField]
     float startingDistance;
 
     bool hitting = false;
@@ -36,10 +37,11 @@ public class MouseOrbit : MonoBehaviour
         Vector3 angles = transform.eulerAngles;
         rotationYAxis = angles.y;
         rotationXAxis = angles.x;
-        startingDistance = distance;
+        //startingDistance = distance;
         currentPos = transform.position;
 
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = false;
 
         // Make the rigid body not change rotation
         if (GetComponent<Rigidbody>())
@@ -75,7 +77,7 @@ public class MouseOrbit : MonoBehaviour
                 rotation = toRotation;
             }
 
-            //distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel") * 5, distanceMin, distanceMax);
+            distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel") * 5, distanceMin, distanceMax);
             RaycastHit hit;
             if (Physics.Linecast(target.position, transform.position, out hit))
             {
@@ -84,16 +86,17 @@ public class MouseOrbit : MonoBehaviour
                 hitting = true;
 
             }
-            if (Input.GetKeyDown("space"))
+            /*
+            if(Input.GetKeyDown("space"))
             {
                 distance = startingDistance;
             }
-            /* else if(!Physics.Linecast(target.position, currentPos, out hit))
-             {
-                 Debug.Log("are we here");
-                 distance = startingDistance;
-                 hitting = false;
-             }*/
+            else if(!Physics.Linecast(target.position, currentPos, out hit))
+            {
+                Debug.Log("are we here");
+                distance = startingDistance;
+                hitting = false;
+            }*/
             Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
             Vector3 position = rotation * negDistance + target.position;
 
@@ -131,5 +134,10 @@ public class MouseOrbit : MonoBehaviour
     public void setMouseToRotate(bool setValue)
     {
         useMouseToRotate = setValue;
+    }
+
+    public void ResetDistance()
+    {
+        distance = startingDistance;
     }
 }

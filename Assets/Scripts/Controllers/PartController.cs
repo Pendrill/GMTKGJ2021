@@ -35,12 +35,14 @@ public class PartController : MonoBehaviour
     {
         inUse = true;
         partUI.gameObject.SetActive(true);
+        OnUsePart();
     }
 
     public void DisablePart()
     {
         inUse = false;
         partUI.gameObject.SetActive(false);
+        OnDisablePart();
     }
 
     public bool GetPartInUse()
@@ -94,6 +96,22 @@ public class PartController : MonoBehaviour
     /// Runs in FixedUpdate
     /// </summary>
     public virtual void ControlPhysics()
+    {
+
+    }
+
+    /// <summary>
+    /// Runs when switching to this part
+    /// </summary>
+    public virtual void OnUsePart()
+    {
+
+    }
+
+    /// <summary>
+    /// Runs when switching off this part.
+    /// </summary>
+    public virtual void OnDisablePart()
     {
 
     }

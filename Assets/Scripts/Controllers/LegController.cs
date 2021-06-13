@@ -76,6 +76,12 @@ public class LegController : PartController
         fuelGauge.fillAmount = boostTimeRemaining / boostTime;
     }
 
+    private void ControlRotation()
+    {
+        Vector3 projectedForward = Vector3.ProjectOnPlane(inputReader.cam.transform.forward, Vector3.up);
+        transform.rotation = Quaternion.LookRotation(projectedForward);
+    }
+
     private void ControlBoost()
     {
         if (Input.GetKey(inputReader.jumpKey))
@@ -156,6 +162,7 @@ public class LegController : PartController
 
     public override void ControlPhysics()
     {
+        ControlRotation();
         if (isGrounded)
         {
             rb.AddForce(inputReader.move_vector *
@@ -167,8 +174,7 @@ public class LegController : PartController
             rb.AddForce(inputReader.move_vector *
                 baseMoveSpeed * airMoveMultiplier,
                 ForceMode.Acceleration);
-        }
-       
+        }      
     }
 
     private enum BoostState

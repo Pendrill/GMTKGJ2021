@@ -6,14 +6,18 @@ using UnityEngine.Events;
 public class DiscoverableItem : MonoBehaviour
 {
     public Outline outline;
-    public GameObject TextUI;
+    GameObject TextUI;
 
     [SerializeField]
     private DialogueData dData = new DialogueData();
 
+    [SerializeField]
+    public UnityEvent OnAnalyze;
+
     // Start is called before the first frame update
     void Start()
     {
+        TextUI = GameSingleton.Instance.uiManager.textUI;
         deactivateOutline();
     }
 
@@ -47,6 +51,7 @@ public class DiscoverableItem : MonoBehaviour
     {
         TextUI.SetActive(true);
         TextUI.GetComponent<TextDisplayManager>().populateText(dData, currentEvent);
+        OnAnalyze?.Invoke();
     }
 
     public void finishedAnalysing()

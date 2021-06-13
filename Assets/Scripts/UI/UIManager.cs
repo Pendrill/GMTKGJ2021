@@ -7,6 +7,9 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField]
     Text messageText;
+
+    [SerializeField]
+    public GameObject textUI;
     public void SetMessage(string msg)
     {
         messageText.text = msg;
