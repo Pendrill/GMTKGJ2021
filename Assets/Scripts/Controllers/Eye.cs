@@ -43,6 +43,7 @@ public class Eye : PartController
     {
         FirstPersonUI = partUI.transform.GetChild(0).gameObject;
         FirstPersonUI.SetActive(false);
+        checkFlashLight();
     }
 
     public override void ControlPart()
@@ -96,6 +97,7 @@ public class Eye : PartController
 
     private void sendRayCast()
     {
+        DiscoverableItem tempDisc;
         RaycastHit hit;
         Ray ray = inputReader.cam.GetComponent<Camera>().ScreenPointToRay(
             new Vector3(Screen.width/2, Screen.height/2, 0));
@@ -113,16 +115,54 @@ public class Eye : PartController
                         currentSeenObject.GetComponent<DiscoverableItem>().rayCastLeft();
                     }
                     currentSeenObject = objectHit.gameObject;
-                    currentSeenObject.GetComponent<DiscoverableItem>().rayCastHit();
+                    tempDisc = currentSeenObject.GetComponent<DiscoverableItem>();
+                    if(tempDisc.requiresLight)
+                    {
+                        if(flashLightOn)
+                        {
+                            tempDisc.rayCastHit();
+                        }
+                        else
+                        {
+                            tempDisc.rayCastLeft();
+                        }
+                    }
+                    else
+                    {
+                        tempDisc.rayCastHit();
+                    }
+                   // .rayCastHit();
                 }
                 else
                 {
-                    if (Input.GetKeyDown(inputReader.analyzeKey))
+                    tempDisc = currentSeenObject.GetComponent<DiscoverableItem>();
+                    if(tempDisc.requiresLight)
                     {
-                        setPauseEye(true);
-                        UnityEvent m_event = new UnityEvent();
-                        m_event.AddListener(finishedAnalysis);
-                        currentSeenObject.GetComponent<DiscoverableItem>().analyzed(m_event);
+                        if(flashLightOn)
+                        {
+                            tempDisc.rayCastHit();
+                            if (Input.GetKeyDown(inputReader.analyzeKey))
+                            {
+                                setPauseEye(true);
+                                UnityEvent m_event = new UnityEvent();
+                                m_event.AddListener(finishedAnalysis);
+                                currentSeenObject.GetComponent<DiscoverableItem>().analyzed(m_event);
+                            }
+                        }
+                        else
+                        {
+                            tempDisc.rayCastLeft();
+                        }
+                    }
+                    else
+                    {
+                        if (Input.GetKeyDown(inputReader.analyzeKey))
+                        {
+                            setPauseEye(true);
+                            UnityEvent m_event = new UnityEvent();
+                            m_event.AddListener(finishedAnalysis);
+                            currentSeenObject.GetComponent<DiscoverableItem>().analyzed(m_event);
+                        }
                     }
                 }              
             }
@@ -195,7 +235,7 @@ public class Eye : PartController
 
     private void checkFlashLight()
     {
-        if(Input.GetKeyDown(inputReader.flashlightKey))
+        if(inputReader && Input.GetKeyDown(inputReader.flashlightKey))
         {
             flashLightOn = !flashLightOn;
         }

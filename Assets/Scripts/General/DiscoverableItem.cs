@@ -5,6 +5,9 @@ using UnityEngine.Events;
 
 public class DiscoverableItem : MonoBehaviour
 {
+    public bool removeOnInteraction;
+    public bool requiresLight;
+    public float outlineWidth;
     public Outline outline;
     GameObject TextUI;
 
@@ -39,7 +42,7 @@ public class DiscoverableItem : MonoBehaviour
 
     public void activateOutline()
     {
-        outline.OutlineWidth = 3;
+        outline.OutlineWidth = outlineWidth;
     }
 
     public void deactivateOutline()
@@ -52,6 +55,10 @@ public class DiscoverableItem : MonoBehaviour
         TextUI.SetActive(true);
         TextUI.GetComponent<TextDisplayManager>().populateText(dData, currentEvent);
         OnAnalyze?.Invoke();
+        if(removeOnInteraction)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void finishedAnalysing()
