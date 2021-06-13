@@ -104,6 +104,7 @@ public class ArmController : PartController
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Arm_Walk") ||
                 animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
+                GameSingleton.Instance.checkpointSystem.ignoreArm = true;
                 GetComponent<Rigidbody>().isKinematic = true;
                 animator.SetTrigger("GrabTrigger");
                 isGrabbing = true;
@@ -123,8 +124,11 @@ public class ArmController : PartController
                 inputReader.holdable.GetComponent<Rigidbody>().isKinematic = false;
                 inputReader.holdable.transform.parent = prevParent;
                 //inputReader.holdable.transform.localPosition = prevPos;
+                GameSingleton.Instance.checkpointSystem.curCheckpoint.volume.DisableVolume();
                 GetComponent<Rigidbody>().isKinematic = false;
-                inputReader.usable.OnRelease?.Invoke();
+                GameSingleton.Instance.checkpointSystem.ignoreArm = false;
+                GameSingleton.Instance.checkpointSystem.curCheckpoint.volume.EnableVolume();                
+                inputReader.usable.OnRelease?.Invoke();               
             }
         }
     }
