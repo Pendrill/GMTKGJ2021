@@ -19,6 +19,6 @@ public class endFadeTut : MonoBehaviour
 
     public void LoadNextScene()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
     }
 }
