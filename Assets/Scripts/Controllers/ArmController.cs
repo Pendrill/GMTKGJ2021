@@ -124,10 +124,10 @@ public class ArmController : PartController
                 inputReader.holdable.GetComponent<Rigidbody>().isKinematic = false;
                 inputReader.holdable.transform.parent = prevParent;
                 //inputReader.holdable.transform.localPosition = prevPos;
-                GameSingleton.Instance.checkpointSystem.curCheckpoint.volume.DisableVolume();
+                //GameSingleton.Instance.checkpointSystem.curCheckpoint.volume.DisableVolume();
                 GetComponent<Rigidbody>().isKinematic = false;
-                GameSingleton.Instance.checkpointSystem.ignoreArm = false;
-                GameSingleton.Instance.checkpointSystem.curCheckpoint.volume.EnableVolume();                
+                //GameSingleton.Instance.checkpointSystem.ignoreArm = false;
+               // GameSingleton.Instance.checkpointSystem.curCheckpoint.volume.EnableVolume();                
                 inputReader.usable.OnRelease?.Invoke();               
             }
         }
