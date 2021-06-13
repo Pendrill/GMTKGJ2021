@@ -58,7 +58,7 @@ public class LegController : PartController
 
     Animator animator;
 
-    public AudioSource theAudioSource;
+    public AudioSource audioSource;
     public AudioClip rocketFeet;
 
 
@@ -94,15 +94,20 @@ public class LegController : PartController
     {
         if (Input.GetKey(inputReader.jumpKey))
         {
-            if(boostTimeRemaining > 0)
+            audioSource.clip = rocketFeet;
+            audioSource.loop = true;
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+
+            if (boostTimeRemaining > 0)
             {
                 boostState = BoostState.Boost;
                 if (!animator.GetCurrentAnimatorStateInfo(0).IsName("BoostUp"))
                 {
                     animator.SetTrigger("JumpTrigger");
-                    theAudioSource.clip = rocketFeet;
-                    theAudioSource.loop = true;
-                    theAudioSource.Play();
+                    
                 }
             }
             else
@@ -110,15 +115,14 @@ public class LegController : PartController
                 boostState = BoostState.Hover;
                 if (!animator.GetCurrentAnimatorStateInfo(0).IsName("BoostHover"))
                 {
-                    animator.SetTrigger("HoverTrigger");
-                    theAudioSource.Stop();
+                    animator.SetTrigger("HoverTrigger");                   
                 }                   
             }          
         }
         else
         {
             boostState = BoostState.Idle;
-            theAudioSource.Stop();
+            audioSource.Stop();
         }
     }
 
