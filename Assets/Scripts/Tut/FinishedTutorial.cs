@@ -9,16 +9,6 @@ public class FinishedTutorial : MonoBehaviour
     public GameObject eye, hand, leg, halfBody, mainBody;
 
     public Animator fadeAnimator;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void tutDone()
     {
