@@ -36,6 +36,7 @@ public class InputReader : MonoBehaviour
     public bool grabbable = false;
     public string grabbableName = "";
     public Transform holdable;
+    public InteractableUsable usable;
 
 
     public Vector3 move_vector = Vector3.zero;

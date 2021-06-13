@@ -11,6 +11,7 @@ public class InteractableUsable : MonoBehaviour
 {
     [SerializeField]
     public UnityEvent OnUse;
+    public UnityEvent OnRelease;
 
     [SerializeField]
     private string usable_name = "Generic Object";
@@ -37,6 +38,7 @@ public class InteractableUsable : MonoBehaviour
             GameSingleton.Instance.controller.inputReader.grabbable = true;
             GameSingleton.Instance.controller.inputReader.grabbableName = usable_name;
             GameSingleton.Instance.controller.inputReader.holdable = holdable;
+            GameSingleton.Instance.controller.inputReader.usable = this;
             active = true;
         }
 
@@ -52,6 +54,7 @@ public class InteractableUsable : MonoBehaviour
             GameSingleton.Instance.controller.inputReader.grabbable = false;
             GameSingleton.Instance.controller.inputReader.grabbableName = "";
             GameSingleton.Instance.controller.inputReader.holdable = null;
+            GameSingleton.Instance.controller.inputReader.usable = null;
             active = false;
         }
     }

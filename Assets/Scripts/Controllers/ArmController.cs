@@ -104,6 +104,7 @@ public class ArmController : PartController
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Arm_Walk") ||
                 animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
+                GetComponent<Rigidbody>().isKinematic = true;
                 animator.SetTrigger("GrabTrigger");
                 isGrabbing = true;
                 prevParent = inputReader.holdable.transform.parent;
@@ -111,6 +112,9 @@ public class ArmController : PartController
                 inputReader.holdable.GetComponent<Rigidbody>().isKinematic = true;
                 inputReader.holdable.transform.parent = grabLockTarget;
                 inputReader.holdable.transform.localPosition = Vector3.zero;
+                inputReader.usable.OnUse?.Invoke();
+                
+                
             }
             else if (isGrabbing && animator.GetCurrentAnimatorStateInfo(0).IsName("ArmGrab_Idle"))
             {
@@ -119,6 +123,8 @@ public class ArmController : PartController
                 inputReader.holdable.GetComponent<Rigidbody>().isKinematic = false;
                 inputReader.holdable.transform.parent = prevParent;
                 //inputReader.holdable.transform.localPosition = prevPos;
+                GetComponent<Rigidbody>().isKinematic = false;
+                inputReader.usable.OnRelease?.Invoke();
             }
         }
     }

@@ -276,7 +276,7 @@ MonoBehaviour:
   specificType: 0
   useMouseToRotate: 0
   inputReader: {fileID: 0}
-  partUI: {fileID: 0}
+  partUI: {fileID: 5218210470848996990}
   speed: 100
   maxVelocity: 10
   groundDrag: 6
