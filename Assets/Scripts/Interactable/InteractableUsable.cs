@@ -40,7 +40,10 @@ public class InteractableUsable : MonoBehaviour
     {
         if (active)
         {
-           
+           if(Input.GetKeyDown(KeyCode.E))
+            {
+                OnUse.Invoke();
+            }
         }
     }
 

@@ -10,11 +10,13 @@ public class CheckpointSystem : MonoBehaviour
     public delegate void OnCheckpointEnterEvent(CheckpointState checkpoint);
     public static OnCheckpointEnterEvent OnCheckpointEnter;
 
-    public delegate void OnCheckpointEvent();
+    public delegate void OnCheckpointEvent(PartController.PartType type);
     public static OnCheckpointEvent OnCheckpointReload;
 
     [SerializeField]
-    CheckpointState curCheckpoint = null;
+    public CheckpointState curCheckpoint = null;
+
+    public bool ignoreArm = false;
 
     Dictionary<GameObject, ObjSavedState> savedDict = new Dictionary<GameObject, ObjSavedState>();
 
@@ -36,16 +38,21 @@ public class CheckpointSystem : MonoBehaviour
     /// <param name="checkpoint"></param>
     private void HandleCheckpointEnter(CheckpointState checkpoint)
     {
+        if(curCheckpoint != null)
+        {
+            curCheckpoint.volume.DisableVolume();
+        }      
         curCheckpoint = checkpoint;
+        checkpoint.volume.EnableVolume();
         SaveObjects(checkpoint.checkpointObjects);
     }
 
     /// <summary>
     /// Handles a checkpoint being reloaded
     /// </summary>
-    private void HandleCheckpointReload()
+    private void HandleCheckpointReload(PartController.PartType type)
     {
-        if(curCheckpoint != null)
+        if(curCheckpoint != null && !(type == PartController.PartType.Arm && ignoreArm))
         {
             curCheckpoint.volume.GetComponent<Collider>().enabled = false;
             foreach (GameObject obj in curCheckpoint.checkpointObjects)

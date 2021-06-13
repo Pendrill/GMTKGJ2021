@@ -28,7 +28,7 @@ public class Eye : PartController
     public Light flashlight;
 
     public AudioSource theAudioSource;
-    public AudioClip flashlightSound;
+    public AudioClip flashlightSound, analyzing, acFP, deFP;
 
 
     //
@@ -67,11 +67,15 @@ public class Eye : PartController
         {
             eyeState = EyeState.FirstPerson;
             activateFirstPerson();
+            theAudioSource.clip = acFP;
+            theAudioSource.Play();
         }
         else if (Input.GetKeyDown(inputReader.switchCameraMode) && eyeState == EyeState.FirstPerson)
         {
             eyeState = EyeState.Default;
             deactivateFirstPerson();
+            theAudioSource.clip = deFP;
+            theAudioSource.Play();
         }
 
         checkFlashLight();
@@ -146,6 +150,9 @@ public class Eye : PartController
                             tempDisc.rayCastHit();
                             if (Input.GetKeyDown(inputReader.analyzeKey))
                             {
+                                theAudioSource.clip = analyzing;
+                                theAudioSource.Play(); 
+
                                 setPauseEye(true);
                                 UnityEvent m_event = new UnityEvent();
                                 m_event.AddListener(finishedAnalysis);
@@ -161,6 +168,9 @@ public class Eye : PartController
                     {
                         if (Input.GetKeyDown(inputReader.analyzeKey))
                         {
+                            theAudioSource.clip = analyzing;
+                            theAudioSource.Play();
+
                             setPauseEye(true);
                             UnityEvent m_event = new UnityEvent();
                             m_event.AddListener(finishedAnalysis);

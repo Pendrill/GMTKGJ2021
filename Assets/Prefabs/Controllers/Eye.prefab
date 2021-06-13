@@ -46,7 +46,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 831173865723770820}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -8658262237317119830, guid: 0a6ca37e4f61e8643936ce1112ef7e61, type: 3}
 --- !u!23 &3237061401996255887
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 1280446133571650962, guid: 0a6ca37e4f61e8643936ce1112ef7e61, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -142,7 +142,10 @@ MonoBehaviour:
   flashLightOn: 0
   flashlight: {fileID: 7391325763094609989}
   theAudioSource: {fileID: 4848865098725783722}
-  flashlightSound: {fileID: 8300000, guid: aa7e4a887c105c84490a61b7f96d4400, type: 3}
+  flashlightSound: {fileID: 8300000, guid: 8a405bdf6ddcf3c459183627a3262c2c, type: 3}
+  analyzing: {fileID: 8300000, guid: 77684a5ebd798d8458f988152510a6a3, type: 3}
+  acFP: {fileID: 8300000, guid: 1700e4726d1a93e4cb7aaea91a0aa112, type: 3}
+  deFP: {fileID: 8300000, guid: 136c51a3546a8044fb25522f0f6dafbd, type: 3}
 --- !u!82 &4848865098725783722
 AudioSource:
   m_ObjectHideFlags: 0
@@ -637,7 +640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3960573362712133080
 Transform:
   m_ObjectHideFlags: 0
