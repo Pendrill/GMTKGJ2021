@@ -20,6 +20,12 @@ public class RoboDisplayManager : MonoBehaviour
         PlayerController.OnPartRemove -= HandlePartRemove;
     }
 
+    public void DiplayBodyHead()
+    {
+        body.ActivateSprite();
+        //head.ActivateSprite();
+    }
+
     private void HandlePartAdd(PartController.PartType type, PartController.PartSpecificType specific)
     {
         PartDisplay display = GrabPartDisplay(type, specific);
