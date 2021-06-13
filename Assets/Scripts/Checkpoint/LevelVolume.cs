@@ -16,19 +16,21 @@ public class LevelVolume : MonoBehaviour
         {
             if (other.GetComponent<PartController>())
             {
-                CheckpointSystem.OnCheckpointReload.Invoke();
+                CheckpointSystem.OnCheckpointReload.Invoke(other.GetComponent<PartController>().Type);
             }
         }        
     }
 
     public void EnableVolume()
     {
+        GetComponent<Collider>().enabled = true;
         volumeActive = true;
     }
 
     //Disables this volume. Used when moving from one level to next
     public void DisableVolume()
     {
+        GetComponent<Collider>().enabled = false;
         volumeActive = false;
     }
 }
