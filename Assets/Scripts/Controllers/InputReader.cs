@@ -58,7 +58,7 @@ public class InputReader : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            CheckpointSystem.OnCheckpointReload.Invoke();
+            CheckpointSystem.OnCheckpointReload.Invoke(PartController.PartType.Eye);
         }
     }
 
