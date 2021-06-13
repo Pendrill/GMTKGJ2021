@@ -23,9 +23,40 @@ public class CheckpointState : MonoBehaviour
     [SerializeField]
     UnityEvent OnCheckpointSave;
 
+    [SerializeField]
+    MeshRenderer renderer;
+
+    [SerializeField]
+    Material offCheckpoint;
+
+    [SerializeField]
+    Material onCheckpoint;
+
+    private void OnEnable()
+    {
+        CheckpointSystem.OnCheckpointEnter += HandleNewCheckpoint;
+    }
+
+    private void OnDisable()
+    {
+        CheckpointSystem.OnCheckpointEnter -= HandleNewCheckpoint;
+    }
+
     public void SaveCheckpoint()
     {
         CheckpointSystem.OnCheckpointEnter.Invoke(this);
         OnCheckpointSave?.Invoke();
+    }
+
+    private void HandleNewCheckpoint(CheckpointState checkpoint)
+    {
+        if(checkpoint != this)
+        {
+            renderer.material = offCheckpoint;
+        }
+        else
+        {
+            renderer.material = onCheckpoint;
+        }
     }
 }

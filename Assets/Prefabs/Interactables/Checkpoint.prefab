@@ -45,7 +45,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.4
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1017573870389189221
 MonoBehaviour:
@@ -59,10 +59,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a8064fdfab43164e83f0fe6e31e0d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkpointObjects: []
+  volume: {fileID: 0}
+  checkpointObjects:
+  - {fileID: 0}
+  - {fileID: 0}
   OnCheckpointSave:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: LevelVolume, Assembly-CSharp
+        m_MethodName: EnableVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  renderer: {fileID: 8757690664284043270}
+  offCheckpoint: {fileID: 2100000, guid: fc744f06d140d1442a4352e13601f3f5, type: 2}
+  onCheckpoint: {fileID: 2100000, guid: 10b6868dea3578b488d6193490091708, type: 2}
 --- !u!114 &8456753662237410055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,9 +104,12 @@ GameObject:
   - component: {fileID: 8250562600976945293}
   - component: {fileID: 1170359851179365637}
   - component: {fileID: 8757690664284043270}
+  - component: {fileID: 8875030776925724906}
+  - component: {fileID: 8875030776925724901}
+  - component: {fileID: 8875030776925724902}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Discover
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,7 +155,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 10b6868dea3578b488d6193490091708, type: 2}
+  - {fileID: 2100000, guid: fc744f06d140d1442a4352e13601f3f5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -156,3 +177,57 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8875030776925724906
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3551276841426062865}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0.000030517578, y: -0.000061035156, z: 0.000030517578}
+--- !u!114 &8875030776925724901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3551276841426062865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &8875030776925724902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3551276841426062865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 585afaf229d2d36489308cdeddea7787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  removeOnInteraction: 0
+  requiresLight: 0
+  outlineWidth: 2
+  outline: {fileID: 8875030776925724901}
+  dData:
+    Name: Thoughts
+    Text: A checkpoint! Press 'R' to return to last checkpoint!
+    Image: {fileID: 0}
+  OnAnalyze:
+    m_PersistentCalls:
+      m_Calls: []
