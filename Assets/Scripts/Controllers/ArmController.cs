@@ -40,7 +40,7 @@ public class ArmController : PartController
     //physics update
     public override void ControlPhysics()
     {
-        if(Input.GetAxis("Vertical") != 0)
+        if(Input.GetAxis("Vertical") > 0)
         {
             currentDelay -= Time.deltaTime;
         }
