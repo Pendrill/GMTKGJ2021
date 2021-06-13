@@ -58,6 +58,10 @@ public class LegController : PartController
 
     Animator animator;
 
+    public AudioSource theAudioSource;
+    public AudioClip rocketFeet;
+
+
     public override void InitPart()
     {
         base.InitPart();
@@ -96,6 +100,9 @@ public class LegController : PartController
                 if (!animator.GetCurrentAnimatorStateInfo(0).IsName("BoostUp"))
                 {
                     animator.SetTrigger("JumpTrigger");
+                    theAudioSource.clip = rocketFeet;
+                    theAudioSource.loop = true;
+                    theAudioSource.Play();
                 }
             }
             else
@@ -104,12 +111,14 @@ public class LegController : PartController
                 if (!animator.GetCurrentAnimatorStateInfo(0).IsName("BoostHover"))
                 {
                     animator.SetTrigger("HoverTrigger");
+                    theAudioSource.Stop();
                 }                   
             }          
         }
         else
         {
             boostState = BoostState.Idle;
+            theAudioSource.Stop();
         }
     }
 

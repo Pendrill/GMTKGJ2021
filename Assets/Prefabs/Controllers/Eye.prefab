@@ -142,7 +142,10 @@ MonoBehaviour:
   flashLightOn: 0
   flashlight: {fileID: 7391325763094609989}
   theAudioSource: {fileID: 4848865098725783722}
-  flashlightSound: {fileID: 8300000, guid: aa7e4a887c105c84490a61b7f96d4400, type: 3}
+  flashlightSound: {fileID: 8300000, guid: 8a405bdf6ddcf3c459183627a3262c2c, type: 3}
+  analyzing: {fileID: 8300000, guid: 77684a5ebd798d8458f988152510a6a3, type: 3}
+  acFP: {fileID: 8300000, guid: 1700e4726d1a93e4cb7aaea91a0aa112, type: 3}
+  deFP: {fileID: 8300000, guid: 136c51a3546a8044fb25522f0f6dafbd, type: 3}
 --- !u!82 &4848865098725783722
 AudioSource:
   m_ObjectHideFlags: 0
