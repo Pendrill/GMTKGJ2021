@@ -117,13 +117,13 @@ public class Eye : PartController
             {
                 if(currentSeenObject != objectHit.gameObject)
                 {
-                    if (currentSeenObject)
+                    if (currentSeenObject && currentSeenObject.GetComponent<DiscoverableItem>())
                     {
                         currentSeenObject.GetComponent<DiscoverableItem>().rayCastLeft();
                     }
                     currentSeenObject = objectHit.gameObject;
                     tempDisc = currentSeenObject.GetComponent<DiscoverableItem>();
-                    if(tempDisc.requiresLight)
+                    if(tempDisc && tempDisc.requiresLight)
                     {
                         if(flashLightOn)
                         {
@@ -143,7 +143,7 @@ public class Eye : PartController
                 else
                 {
                     tempDisc = currentSeenObject.GetComponent<DiscoverableItem>();
-                    if(tempDisc.requiresLight)
+                    if(tempDisc && tempDisc.requiresLight)
                     {
                         if(flashLightOn)
                         {
