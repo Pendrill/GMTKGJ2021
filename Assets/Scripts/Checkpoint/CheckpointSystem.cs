@@ -38,7 +38,12 @@ public class CheckpointSystem : MonoBehaviour
     /// <param name="checkpoint"></param>
     private void HandleCheckpointEnter(CheckpointState checkpoint)
     {
+        if(curCheckpoint != null)
+        {
+            curCheckpoint.volume.DisableVolume();
+        }      
         curCheckpoint = checkpoint;
+        checkpoint.volume.EnableVolume();
         SaveObjects(checkpoint.checkpointObjects);
     }
 
