@@ -26,6 +26,9 @@ public class WeightSensitiveInteractable : MonoBehaviour
     [SerializeField]
     UnityEvent OnUnweighted;
 
+    [SerializeField]
+    ComicEffectManager.ComicEffectType effectType;
+
     private bool eventInvoked = false;
 
     private void OnCollisionEnter(Collision collision)
@@ -57,6 +60,7 @@ public class WeightSensitiveInteractable : MonoBehaviour
         if (weightValid && !eventInvoked)
         {
             OnWeighted?.Invoke();
+            PlayEffect();
             eventInvoked = true;
         }
         else if (!weightValid && eventInvoked)
@@ -133,5 +137,10 @@ public class WeightSensitiveInteractable : MonoBehaviour
             }           
         }
         return true;
+    }
+
+    public void PlayEffect()
+    {
+        GameSingleton.Instance.uiManager.effectManager.PlayEffect(transform, effectType);
     }
 }

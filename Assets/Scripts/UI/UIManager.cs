@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     public GameObject textUI;
+
+    [SerializeField]
+    public ComicEffectManager effectManager;
     public void SetMessage(string msg)
     {
         messageText.text = msg;
